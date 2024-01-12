@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
@@ -24,6 +25,7 @@ class Explore extends StatelessWidget {
     {"label":"Lamp","image":"Lamp image"},{"label":"Cars","image":"Cars image"},{"label":"Plant","image":"Plant image"},{"label":"Dogs","image":"Dogs image"},{"label":"Dogs","image":"Dogs image"},];
   @override
   Widget build(BuildContext context) {
+
     return  Scaffold(
       // backgroundColor: Colors.white,
       backgroundColor:const  Color(0xff054456),
@@ -131,7 +133,8 @@ class Explore extends StatelessWidget {
                   ),
                 )),
               ),
-            )
+            ),
+
 
 
 
@@ -143,8 +146,19 @@ class Explore extends StatelessWidget {
   }
 }
 
+
+void logPrint(dynamic printData){
+  if (kDebugMode) {
+    print(printData.toString());
+  }
+}
+
 ///  today task
 ///  https://assets.justinmind.com/wp-content/uploads/2020/09/ios-app-design-drum-school.png
 
-
-
+/// 5
+/// 1*2*3*4*5 =
+///
+///
+///
+///

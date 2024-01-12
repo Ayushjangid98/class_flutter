@@ -1,5 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'main.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -19,25 +23,24 @@ class _HomePageState extends State<HomePage> {
   ];
   int index =0 ;
   TextEditingController searchController  = TextEditingController();
+  GlobalKey<FormState>  formKey =  GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    print(searchController.text);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15,vertical: MediaQuery.of(context).padding.top),
-
         child: Column(
           children: [
             const SizedBox(height: 20,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const  Column(
+                  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Welcome Back",style: TextStyle(fontSize: 14,fontFamily: "Roboto",fontWeight: FontWeight.w400,color: Colors.black),),
+                    InkWell(onTap: (){},child: Text("Welcome Back",style: TextStyle(fontSize: 14,fontFamily: "Roboto",fontWeight: FontWeight.w400,color: Colors.black),)),
                     SizedBox(height: 5,),
-                    Text("Ayush jnagid",style: TextStyle(fontSize: 26,fontFamily: "Roboto",fontWeight: FontWeight.w600,color: Colors.black,letterSpacing: 1),),
+                    GestureDetector(child: Text("Ayush jnagid",style: TextStyle(fontSize: 26,fontFamily: "Roboto",fontWeight: FontWeight.w600,color: Colors.black,letterSpacing: 1),)),
                   ],
                 ),
                 SizedBox(
@@ -78,21 +81,46 @@ class _HomePageState extends State<HomePage> {
                     ),
                     width: double.infinity,
                     child: Center(
-                      child: TextFormField(
-                        controller: searchController,
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.search),
-                          hintText: "Search item....",
-                          hintStyle: TextStyle(
-                            fontSize: 15,
-                          color: Colors.grey),
-                          border: InputBorder.none,
-                           contentPadding: EdgeInsets.only(top: 15)
-                        ),
+                      child: Form(
+                        key: formKey,
+                        child: TextFormField(
+                          controller: searchController,
+                          style:const TextStyle(
+                              fontSize: 15,
+                              color: Colors.black),
+                          inputFormatters: [
+                            // FilteringTextInputFormatter.allow(RegExp('[a-zA-Z ]')),
+                            // FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                            LengthLimitingTextInputFormatter(25)
+                          ],
+                          validator: (String ?value){
+                            // logPrint((value?.contains("@")??false));
+                            // logPrint((value?.contains(".")??false));
+                            // logPrint(!(value?.contains("@")??false) && !(value?.contains(".")??false));
+                            // logPrint(value);
+                            if(value?.isEmpty ?? false){
+                              return "Please Fill your category first.";
+                            }
+                            // else if(!(value?.contains("@")??false) && !(value?.contains(".com")??false)){
+                            //   return "Please Fill your valid email.";
+                            // }
+                            else if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value??"")){
+                              return "Please Fill your valid email.";
+                            }
 
+                            return null;
+                          },
+                          keyboardType:TextInputType.emailAddress ,
+                          decoration:const InputDecoration(
+                            prefixIcon: Icon(Icons.search),
+                            hintText: "Search item....",
+                            hintStyle: TextStyle(
+                              fontSize: 15,
+                            color: Colors.grey),
+                            border: InputBorder.none,
+                             contentPadding: EdgeInsets.only(top: 15)
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -153,7 +181,30 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+            ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: List.generate(5, (index) => Icon(Icons.star,color:index<2 ?Colors.yellow:Colors.grey,)),
+            // )
+            const SizedBox(height: 20,),
+            Container(
+              height: 50,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Colors.black
+              ),
+              child: MaterialButton(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),onPressed: (){
+
+                if(formKey.currentState!.validate()){
+                  logPrint("true");
+                }else{
+                  logPrint("false");
+                }
+              },child:const Text("Search Category",style: TextStyle(color: Colors.white),)),
             )
+
 
           ],
         ),
@@ -161,3 +212,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+/// today task
+/// 1. https://res.cloudinary.com/practicaldev/image/fetch/s--vn3YgmDK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.ibb.co/k46Mcyb/todoApp.png
+/// 2. https://www.sketchappsources.com/resources/source-image/login-screen-mailmeabhi1987.png
