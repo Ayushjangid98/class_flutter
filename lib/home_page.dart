@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -138,7 +139,28 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             const SizedBox(height: 20,),
-
+            // Image.asset("assets/download.jpeg"),
+            // Image.network("https://blog.hootsuite.com/wp-content/uploads/2020/02/Image-copyright.png"),
+            // Image.file(),
+            
+           Container(
+             height: 100,
+             width: 300,
+             decoration: BoxDecoration(
+               image: DecorationImage(
+                 // image: AssetImage("assets/download.jpeg")
+                 image: NetworkImage("https://blog.hootsuite.com/wp-content/uploads/2020/02/Image-copyright.png")
+               )
+             ),
+             // child: Center(child: Text("wdefrtghn",style: TextStyle(color: Colors.white),)),
+           ),
+            // CachedNetworkImage(
+            //   imageUrl: "https://blog.hootsuite.com/wp-content/uploads/2020/02/hyImage-copyright.png",
+            //   progressIndicatorBuilder: (context, url, downloadProgress) =>
+            //       CircularProgressIndicator(value: downloadProgress.progress),
+            //   errorWidget: (context, url, error) => Icon(Icons.error),
+            // ),
+            // FadeInImage(placeholder: AssetImage("assets/download.jpeg"), image: NetworkImage("https://blog.hootsuite.com/wp-content/uploads/2020/02/Image-copyright.png")),
             CarouselSlider.builder(
                 itemCount: imagesMap.length,
                 options: CarouselOptions(

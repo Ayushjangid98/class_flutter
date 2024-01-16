@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
+import 'page_view.dart';
 
 // https://static.vecteezy.com/system/resources/previews/008/295/003/original/simple-store-online-ui-design-template-suitable-designing-application-for-android-and-ios-ecommerce-app-mobile-free-vector.jpg
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      home: HomePage(),
+      home: InstagramImageViewer(),
     );
   }
 }
