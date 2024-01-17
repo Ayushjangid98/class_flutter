@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'bottom_nav_screen.dart';
 import 'home_page.dart';
 import 'page_view.dart';
 
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      home: InstagramImageViewer(),
+      color: Colors.white,
+      home: BottomNavScreen(),
     );
   }
 }
