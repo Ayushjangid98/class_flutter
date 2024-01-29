@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'bottom_nav_screen.dart';
 import 'home_page.dart';
+import 'nav_pag.dart';
+import 'nav_second.dart';
 import 'page_view.dart';
 
 // https://static.vecteezy.com/system/resources/previews/008/295/003/original/simple-store-online-ui-design-template-suitable-designing-application-for-android-and-ios-ecommerce-app-mobile-free-vector.jpg
@@ -17,7 +19,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       color: Colors.white,
-      home: BottomNavScreen(),
+      // home: BottomNavScreen(),
+      initialRoute: Routes.bottomNavScreen,
+      routes: Routes.routesMap
     );
   }
 }
@@ -165,3 +169,19 @@ void logPrint(dynamic printData){
 ///
 ///
 ///
+
+
+class Routes{
+  /// for routes name
+  static String bottomNavScreen ="/BottomNavScreen";
+  static String navPag ="/NavPag";
+  static String navSecond ="/NavSecond";
+
+
+  /// for routing conecting
+  static Map<String, WidgetBuilder>  routesMap ={
+    bottomNavScreen : (context) =>  BottomNavScreen(),
+    navPag: (context) => const NavPag(),
+    navSecond: (context) => const NavSecond(),
+  };
+}

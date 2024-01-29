@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -161,9 +161,9 @@ class _HomePageState extends State<HomePage> {
             //   errorWidget: (context, url, error) => Icon(Icons.error),
             // ),
             // FadeInImage(placeholder: AssetImage("assets/download.jpeg"), image: NetworkImage("https://blog.hootsuite.com/wp-content/uploads/2020/02/Image-copyright.png")),
-            CarouselSlider.builder(
+            carousel.CarouselSlider.builder(
                 itemCount: imagesMap.length,
-                options: CarouselOptions(
+                options: carousel.CarouselOptions(
                     aspectRatio:16/6,
                     autoPlay: true,
                     viewportFraction: 1,

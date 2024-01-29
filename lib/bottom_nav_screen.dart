@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:xyz/main.dart';
+import 'package:xyz/nav_pag.dart';
+
+import 'api_calling.dart';
 
 
 
@@ -33,7 +37,15 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     Home(),
     School(),
     Bus(),
+    SizedBox()
   ];
+
+
+  @override
+  void initState() {
+    ApiCalling.getApi();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     print(bottomBarList.indexWhere((element) => element["label"]==_selectedItem));
@@ -129,7 +141,19 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Home"));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(child: Text("Home")),
+        MaterialButton(onPressed: (){
+          Navigator.pushReplacementNamed(context, Routes.navPag);
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => const NavPag(number: "23456789",),),
+          // );
+          print("sdrtfyguh");
+        },child: Text("Tap"),color: Colors.orange,)
+      ],
+    );
   }
 }
 
