@@ -3,7 +3,7 @@ import 'package:xyz/main.dart';
 import 'package:xyz/nav_pag.dart';
 
 import 'api_calling.dart';
-
+import 'home_screen.dart';
 
 
 
@@ -15,7 +15,7 @@ class BottomNavScreen extends StatefulWidget {
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
-  String _selectedItem = "";
+  String _selectedItem = "Home";
   void _onItemTapped(String item) {
     setState(() {
       _selectedItem = item;
@@ -41,11 +41,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   ];
 
 
-  @override
-  void initState() {
-    ApiCalling.getApi();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   ApiCalling.getApi();
+  //   super.initState();
+  // }
   @override
   Widget build(BuildContext context) {
     print(bottomBarList.indexWhere((element) => element["label"]==_selectedItem));
@@ -136,26 +136,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   }
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(child: Text("Home")),
-        MaterialButton(onPressed: (){
-          Navigator.pushReplacementNamed(context, Routes.navPag);
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => const NavPag(number: "23456789",),),
-          // );
-          print("sdrtfyguh");
-        },child: Text("Tap"),color: Colors.orange,)
-      ],
-    );
-  }
-}
+
+
 
 
 class School extends StatelessWidget {

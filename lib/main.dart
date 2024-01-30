@@ -32,7 +32,6 @@ class Explore extends StatelessWidget {
     {"label":"Lamp","image":"Lamp image"},{"label":"Cars","image":"Cars image"},{"label":"Plant","image":"Plant image"},{"label":"Dogs","image":"Dogs image"},{"label":"Dogs","image":"Dogs image"},];
   @override
   Widget build(BuildContext context) {
-
     return  Scaffold(
       // backgroundColor: Colors.white,
       backgroundColor:const  Color(0xff054456),
