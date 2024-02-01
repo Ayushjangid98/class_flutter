@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'bottom_nav_screen.dart';
 import 'home_page.dart';
+import 'login_page.dart';
 import 'nav_pag.dart';
 import 'nav_second.dart';
 import 'page_view.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       color: Colors.white,
       // home: BottomNavScreen(),
-      initialRoute: Routes.bottomNavScreen,
+      initialRoute: Routes.loginScreen,
       routes: Routes.routesMap
     );
   }
@@ -175,11 +176,13 @@ class Routes{
   static String bottomNavScreen ="/BottomNavScreen";
   static String navPag ="/NavPag";
   static String navSecond ="/NavSecond";
+  static String loginScreen ="/LoginScreen";
 
 
   /// for routing conecting
   static Map<String, WidgetBuilder>  routesMap ={
     bottomNavScreen : (context) =>  BottomNavScreen(),
+    loginScreen : (context) =>  LoginScreen(),
     navPag: (context) => const NavPag(),
     navSecond: (context) => const NavSecond(),
   };

@@ -46,12 +46,14 @@ class _HomeState extends State<Home> {
        print(data.body);
       // apiData = jsonDecode(data.body);
       // apiData = List<ApiModel>.from(json.decode(str).map((x) => ApiModel.fromJson(x)));
+      apiData = apiModelFromJson(data.body);
       // apiSingleData = ApiModel.fromJson(json.decode(data.body));
       doorModel = DoorModel.fromJson(json.decode(data.body));
       setState(() {
 
       });
       print(apiData.length);
+
       // print(data.body.runtimeType);
     }catch(e){
       print(e);
