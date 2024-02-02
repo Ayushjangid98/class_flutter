@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'bottom_nav_screen.dart';
+import 'future_builder.dart';
 import 'home_page.dart';
 import 'login_page.dart';
 import 'nav_pag.dart';
@@ -20,9 +21,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       color: Colors.white,
-      // home: BottomNavScreen(),
-      initialRoute: Routes.loginScreen,
-      routes: Routes.routesMap
+      home: LoginScreen(),
+      // initialRoute: Routes.loginScreen,
+      // routes: Routes.routesMap
     );
   }
 }

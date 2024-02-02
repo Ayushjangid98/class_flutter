@@ -19,8 +19,8 @@ class _NavPagState extends State<NavPag> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if(args.containsKey("number"))
-            Center(child: Text(args.containsKey("number")?args["number"]:"Not found")),
+          if(args.containsKey("massage"))
+            Center(child: Text(args.containsKey("massage")?args["massage"]:"Not found")),
           MaterialButton(onPressed: (){
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const NavSecond()),(v)=> v.isFirst);
 

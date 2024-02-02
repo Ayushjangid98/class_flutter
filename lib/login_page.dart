@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:xyz/main.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -11,10 +12,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   TextEditingController phoneNumberForm =TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String phoneError = "";
-  Future loginTap()async{
+  Future loginTap({required Function(Map<String,dynamic>) onSuccess, required Function(String) onError,})async{
     print("call function");
     print(phoneNumberForm.text);
      try{
@@ -26,26 +28,25 @@ class _LoginScreenState extends State<LoginScreen> {
        print(loginData.statusCode);
        print(loginData.body);
        print(apiData["status"]);
+
        if(apiData["status"]==true){
-         phoneError = "";
-         phoneNumberForm.clear();
-         print(apiData["message"]);
+         onSuccess(apiData);
        }else if(apiData["status"]==false && apiData.containsKey("errors")){
          ErrorHandler errorHandler =  ErrorHandler.errorHandler(apiData["errors"]);
          phoneError = errorHandler.errorList.first;
-         print(errorHandler.errorList.first);
+         onError(phoneError);
        }else if(apiData["status"]==false && !apiData.containsKey("errors")){
-         print(apiData["message"]);
+         onError(apiData["message"]);
        }else{
-         print("something went wrong");
+         onError("something went wrong");
        }
-       setState(() {});
      }catch(e){
-       print(e);
+       onError(e.toString());
      }
   }
   @override
   Widget build(BuildContext context) {
+
     return  Scaffold(
       appBar: AppBar(
         title: const Text("Login"),
@@ -75,7 +76,18 @@ class _LoginScreenState extends State<LoginScreen> {
             MaterialButton(onPressed: (){
               setState(() {});
               if(formKey.currentState!.validate()){
-                loginTap();
+                loginTap(
+                  onError: (String error){
+                    phoneError = error;
+                    setState(() {});
+                  },
+                  onSuccess: (Map success){
+                    phoneError = "";
+                    phoneNumberForm.clear();
+                    Navigator.pushNamed(context,Routes.navPag,arguments: {"massage":success,"response":true});
+                  }
+                );
+
               }
             },color: Colors.red,child: const Text("Login"),)
           ],
