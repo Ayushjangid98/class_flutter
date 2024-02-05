@@ -21,17 +21,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       color: Colors.white,
-      home: LoginScreen(),
-      // initialRoute: Routes.loginScreen,
-      // routes: Routes.routesMap
+      // home: LoginScreen(),
+      initialRoute: Routes.bottomNavScreen,
+      routes: Routes.routesMap
     );
   }
 }
 
 class Explore extends StatelessWidget {
   Explore({super.key});
-  List<Map<String,dynamic>> exploreItemsList =[
-    {"label":"Lamp","image":"Lamp image"},{"label":"Cars","image":"Cars image"},{"label":"Plant","image":"Plant image"},{"label":"Dogs","image":"Dogs image"},{"label":"Dogs","image":"Dogs image"},];
+  List<Map<String,dynamic>> exploreItemsList =[{"label":"Lamp","image":"Lamp image"},{"label":"Cars","image":"Cars image"},{"label":"Plant","image":"Plant image"},{"label":"Dogs","image":"Dogs image"},{"label":"Dogs","image":"Dogs image"},];
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -166,10 +165,7 @@ void logPrint(dynamic printData){
 
 /// 5
 /// 1*2*3*4*5 =
-///
-///
-///
-///
+
 
 
 class Routes{
@@ -187,4 +183,10 @@ class Routes{
     navPag: (context) => const NavPag(),
     navSecond: (context) => const NavSecond(),
   };
+}
+
+
+class AppConstant{
+  static GlobalKey<ScaffoldState> scaffoldKey =  GlobalKey<ScaffoldState>();
+
 }
