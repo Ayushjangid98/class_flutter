@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:xyz/shared_preferences.dart';
 
 import 'bottom_nav_screen.dart';
 import 'future_builder.dart';
@@ -21,9 +22,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       color: Colors.white,
-      // home: LoginScreen(),
-      initialRoute: Routes.bottomNavScreen,
-      routes: Routes.routesMap
+      home: HomePage(),
+      // initialRoute: Routes.bottomNavScreen,
+      // routes: Routes.routesMap
     );
   }
 }
