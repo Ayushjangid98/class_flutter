@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:xyz/shared_preferences.dart';
 
 import 'bottom_nav_screen.dart';
+import 'class_second/list_map.dart';
 import 'future_builder.dart';
 import 'home_page.dart';
 import 'login_page.dart';
@@ -12,6 +13,7 @@ import 'page_view.dart';
 
 // https://static.vecteezy.com/system/resources/previews/008/295/003/original/simple-store-online-ui-design-template-suitable-designing-application-for-android-and-ios-ecommerce-app-mobile-free-vector.jpg
 void main() {
+  countPrint();
   runApp(const MyApp());
 }
 
