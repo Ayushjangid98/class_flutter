@@ -1,6 +1,6 @@
 {
-    "name": "xyz",
-    "short_name": "xyz",
+    "name": "class_second",
+    "short_name": "class_second",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
