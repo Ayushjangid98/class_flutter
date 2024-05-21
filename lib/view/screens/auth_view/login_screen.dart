@@ -1,8 +1,13 @@
-import 'package:class_second/view/widgets/custom_buttons/common_button.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:class_second/view/widgets/custom_buttons/common_button.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+
+import '../../../model_view/api_helper/api_helper.dart';
 import '../../widgets/common_text_form_field/common_text_field.dart';
+import '../../widgets/common_text_form_field/regex/regex.dart';
 import '../../widgets/common_text_form_field/label_container_view.dart';
 import '../../widgets/custom_buttons/text_buttons.dart';
 
@@ -15,10 +20,44 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController emailTextController  = TextEditingController();
-  TextEditingController passwordTextController  = TextEditingController();
+  TextEditingController emailTextController  = TextEditingController(text: "ayudsh@gmai.com");
+  TextEditingController passwordTextController  = TextEditingController(text: "Ayush@123");
   String emailError = '';
   String passwordError = '';
+
+
+  void tapSignUpButton()async{
+    // print(emailTextController.text.length);
+    // print(passwordTextController.text);
+    Response loginData = await ApiHelper.postProduct(url: "http://172.105.41.132/buildithome/public/api/v1/admin/login", body: {
+      "email": emailTextController.text,
+      "password": passwordTextController.text,
+      "device_type": "ios",
+      "device_id": "",
+    });
+    Map<String,dynamic> apiData = jsonDecode(loginData.body);
+    print(loginData.statusCode);
+    print(loginData.body);
+    if(loginData.statusCode==200 && apiData["status"]==true){
+      print("sucsses");
+    }else if(apiData.containsKey("errors")){
+      print("dfgveghfr");
+      setState(() {
+        emailError =apiData["errors"].containsKey('email')?apiData["errors"]["email"].toString():"";
+        passwordError = apiData["errors"].containsKey('email')?apiData["errors"]["password"].toString():"";
+      });
+    }else{
+     setState(() {
+       emailError = apiData["message"];
+     });print("error");
+    }
+  }
+
+  @override
+  void initState() {
+    // ApiHelper.getProduct();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,9 +97,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: emailTextController,
                     keyBordType: TextInputType.emailAddress,
                     hintText: "Please enter your mobile number.",
-                    validator: (String ?value){
-                      return null;
-                    },
+                    validator: (String ?value)=>value?.isValidEmail(onError: (String error)=>setState(() {
+                      emailError = error;
+                    })),
                   ),
                 ),
                 const SizedBox(height: 10,),
@@ -70,9 +109,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     errorText: passwordError,
                     controller: passwordTextController,
                     hintText: "Please enter your password.",
-                    validator: (String ?vale){
-                      return null;
-                    },
+                    validator: (String ?value)=>value?.isValidPassword(onError: (String error)=>setState(() {
+                      passwordError = error;
+                    })),
                   ),
                 ),
                 Align(
@@ -82,7 +121,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: "Forgot Password?",
                   ),
                 ),
-                CommonButton(text: "Sign Up", loading: false, onPressed: (){}, color: Colors.blue),
+                CommonButton(text: "Sign Up", loading: false, onPressed: (){
+                  if(formKey.currentState?.validate()??false){
+                    print("dvjhbsdhjv");
+                    tapSignUpButton();
+                  }
+                }, color: Colors.blue),
                 const SizedBox(height: 10,),
                 const Center(
                   child: Text("Or",style: TextStyle(

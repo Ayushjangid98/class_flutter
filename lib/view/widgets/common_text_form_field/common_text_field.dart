@@ -13,11 +13,12 @@ class CommonTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           height: 35,
           child: TextFormField(
-            
+            controller: controller,
             keyboardType: keyBordType ?? TextInputType.text,
             validator: validator,
             inputFormatters: inputFormatters ?? [],
@@ -29,6 +30,7 @@ class CommonTextField extends StatelessWidget {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
               errorText: null,
+              errorStyle: const TextStyle(fontSize: 0),
               hintText: hintText,
               hintStyle: const TextStyle(
                   fontSize: 12,
@@ -48,8 +50,8 @@ class CommonTextField extends StatelessWidget {
             child: Text(
               errorText,
               style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
+                  fontSize: 10,
+                  color: Colors.red,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w400),
             ),
