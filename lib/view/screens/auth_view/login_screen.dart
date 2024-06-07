@@ -29,22 +29,32 @@ class _LoginScreenState extends State<LoginScreen> {
   void tapSignUpButton()async{
     // print(emailTextController.text.length);
     // print(passwordTextController.text);
-    Response loginData = await ApiHelper.postProduct(url: "http://172.105.41.132/buildithome/public/api/v1/admin/login", body: {
+    Response loginData = await ApiHelper.postMethod(url: "http://172.105.41.132/buildithome/public/api/v1/admin/login", body: {
       "email": emailTextController.text,
       "password": passwordTextController.text,
       "device_type": "ios",
       "device_id": "",
     });
+
+
+
+
+
+
     Map<String,dynamic> apiData = jsonDecode(loginData.body);
+
     print(loginData.statusCode);
     print(loginData.body);
+
+
+
     if(loginData.statusCode==200 && apiData["status"]==true){
       print("sucsses");
     }else if(apiData.containsKey("errors")){
       print("dfgveghfr");
       setState(() {
         emailError =apiData["errors"].containsKey('email')?apiData["errors"]["email"].toString():"";
-        passwordError = apiData["errors"].containsKey('email')?apiData["errors"]["password"].toString():"";
+        passwordError = apiData["errors"].containsKey('password')?apiData["errors"]["password"].toString():"";
       });
     }else{
      setState(() {
@@ -58,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // ApiHelper.getProduct();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: [
             Container(
-              height: 180,
+              height: MediaQuery.of(context).size.height*.3,
               decoration:const BoxDecoration(
                 borderRadius: BorderRadius.only(bottomRight:Radius.circular(120)),
                 boxShadow: [BoxShadow(

@@ -7,8 +7,9 @@ class CommonTextField extends StatelessWidget {
   final String errorText;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyBordType;
+  final TextStyle? textStyle;
   final String? Function(String?) validator;
-  const CommonTextField({super.key, required this.controller, required this.hintText, required this.errorText, this.inputFormatters, this.keyBordType, required this.validator});
+  const CommonTextField({super.key, required this.controller, required this.hintText, required this.errorText, this.inputFormatters, this.keyBordType, required this.validator, this.textStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class CommonTextField extends StatelessWidget {
             keyboardType: keyBordType ?? TextInputType.text,
             validator: validator,
             inputFormatters: inputFormatters ?? [],
-            style: const TextStyle(
+            style: textStyle??const TextStyle(
                 fontSize: 12,
                 color: Colors.white,
                 fontFamily: 'Roboto',
