@@ -1,20 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-class HomePage extends StatefulWidget {
+import 'package:get/get.dart';
+
+
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePAgeState();
-}
-
-class _HomePAgeState extends State<HomePage> {
-
-  int pageIndex = 0;
-  @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
+    HomePageController controller = Get.put(HomePageController());
+    print("jasdhvchsvdbkfhwebhwebkf");
     return Scaffold(
       backgroundColor: Color(0xffF3F2F8),
       appBar:PreferredSize(
@@ -35,8 +30,8 @@ class _HomePAgeState extends State<HomePage> {
                       height: 30,
                       width: 30,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white.withOpacity(.2)
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white.withOpacity(.2)
                       ),
                       child: const Icon(Icons.location_on_outlined,color: Colors.white,size: 15,),
                     ),
@@ -59,16 +54,13 @@ class _HomePAgeState extends State<HomePage> {
                     enlargeCenterPage: false,
                     disableCenter: false,
                     onPageChanged: (index, reason) {
-                      setState(() {
-                        pageIndex =index;
-                      });
-
+                      controller.pageIndex.value = index;
                     },
                   ),
                   itemCount: 5,
                   itemBuilder: (context, index, _) {
                     return Container(
-                    height: double.infinity,
+                        height: double.infinity,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           boxShadow:  [ BoxShadow(
@@ -89,15 +81,15 @@ class _HomePAgeState extends State<HomePage> {
                 right: 15,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(5, (index) => Container(
+                  children: List.generate(5, (index) => Obx(()=>Container(
                     margin: const EdgeInsets.only(right: 2),
-                  height: 8,
-                  width: 8,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: pageIndex ==index ?Colors.black: Colors.grey.withOpacity(.5)
-                  ),
-                )),),
+                    height: 8,
+                    width: 8,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: controller.pageIndex.value == index ?Colors.black: Colors.grey.withOpacity(.5)
+                    ),
+                  ))),),
               )
             ],
           ),
@@ -106,21 +98,23 @@ class _HomePAgeState extends State<HomePage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
         children: [
-          Wrap(
+          Obx(()=>Wrap(
             runSpacing: 15,
             spacing: 15,
-            children: List.generate(4, (index) => Container(
+            children: List.generate(controller.data.length, (index) => Container(
               height: MediaQuery.of(context).size.width/2-22.5,
               width:  MediaQuery.of(context).size.width/2-22.5,
               color: Colors.red,
             )),
-          ),
+          )),
           const SizedBox(height: 20,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Cuurent Orders',style: TextStyle(fontSize: 14),),
-              TextButton(onPressed: (){}, child:const Text('View All',style: TextStyle(fontSize: 14,color: Colors.orangeAccent),))
+              TextButton(onPressed: (){
+                controller.data.add("dfghjk");
+              }, child:const Text('View All',style: TextStyle(fontSize: 14,color: Colors.orangeAccent),))
             ],
           ),
           const SizedBox(height: 10,),
@@ -176,17 +170,31 @@ class _HomePAgeState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home"
+              icon: Icon(Icons.home),
+              label: "Home"
           ),BottomNavigationBarItem(
-            icon: Icon(Icons.car_crash),
-            label: "On Going"
+              icon: Icon(Icons.car_crash),
+              label: "On Going"
           ),BottomNavigationBarItem(
-            icon: Icon(Icons.add_shopping_cart_outlined),
-            label: "Cart"
+              icon: Icon(Icons.add_shopping_cart_outlined),
+              label: "Cart"
           ),
         ],
       ),
     );
+  }
+}
+
+
+
+
+class HomePageController extends GetxController{
+  RxInt pageIndex = 0.obs;
+  RxList<String> data =  <String>[].obs;
+  @override
+  void onInit() {
+    print("dcghvsdhgcvsdc");
+    pageIndex.value =5;
+    super.onInit();
   }
 }
