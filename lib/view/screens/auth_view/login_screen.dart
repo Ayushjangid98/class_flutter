@@ -33,62 +33,45 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   void loginTap()async{
-    http.Response response  = await http.post(Uri.parse('http://172.105.41.132/buildithome/public/api/v1/admin/login'),body: jsonEncode({
-      'email' :emailTextController.text,
-      'password' :passwordTextController.text
-    }),headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    });
-
-    Map<String,dynamic> apiData = jsonDecode(response.body);
-    print(response.statusCode);
-    print(apiData);
-   if(apiData['status']==true){
-     Get.to(ListApiData());
-   }else{
-     ScaffoldMessenger.of(context).showSnackBar( SnackBar(
-       content: Text(apiData["message"]),
-     ));
-     print(apiData["message"]);
+   try{
+     http.Response response  = await http.post(Uri.parse('http://172.105.41.132/buildithome/public/api/v1/admin/login'),body: jsonEncode({
+       // 'email' :emailTextController.text,
+       // 'password' :passwordTextController.text
+     }),headers: {
+       'Content-type': 'application/json',
+       'Accept': 'application/json',
+     });
+     Map<String,dynamic> apiData = jsonDecode(response.body);
+     if(response.statusCode ==200 && apiData['status']==true){
+       Get.to(ListApiData());
+     }else if(response.statusCode ==404){
+       showSnackBar("Url not found");
+     }else if(response.statusCode == 500){
+       showSnackBar("Server not working");
+     }else if(response.statusCode == 401 || response.statusCode == 407){
+       showSnackBar("Token not found");
+     }else if(response.statusCode ==422){
+       showSnackBar("Validation error");
+     }else{
+       showSnackBar("Something went wrong");
+     }
+   }on http.ClientException{
+     showSnackBar("NO internet connection");
+   } on SocketException {
+     showSnackBar("NO internet connection");
+   } catch(e,a){
+     showSnackBar(e.toString());
+     print(a);
    }
   }
-  // void tapSignUpButton()async{
-  //   // print(emailTextController.text.length);
-  //   // print(passwordTextController.text);
-  //   Response loginData = await ApiHelper.postMethod(url: "http://172.105.41.132/buildithome/public/api/v1/admin/login", body: {
-  //     "email": emailTextController.text,
-  //     "password": passwordTextController.text,
-  //     "device_type": "ios",
-  //     "device_id": "",
-  //   });
-  //
-  //
-  //
-  //
-  //
-  //
-  //   Map<String,dynamic> apiData = jsonDecode(loginData.body);
-  //
-  //   print(loginData.statusCode);
-  //   print(loginData.body);
-  //
-  //
-  //
-  //   if(loginData.statusCode==200 && apiData["status"]==true){
-  //     print("sucsses");
-  //   }else if(apiData.containsKey("errors")){
-  //     print("dfgveghfr");
-  //     setState(() {
-  //       emailError =apiData["errors"].containsKey('email')?apiData["errors"]["email"].toString():"";
-  //       passwordError = apiData["errors"].containsKey('password')?apiData["errors"]["password"].toString():"";
-  //     });
-  //   }else{
-  //    setState(() {
-  //      emailError = apiData["message"];
-  //    });print("error");
-  //   }
-  // }
+
+
+
+  void showSnackBar(String message){
+    ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+      content: Text(message),
+    ));
+  }
 
   @override
   void initState() {
