@@ -6,12 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../model_view/api_helper/api_helper.dart';
 import '../../widgets/common_text_form_field/common_text_field.dart';
 import '../../widgets/common_text_form_field/regex/regex.dart';
 import '../../widgets/common_text_form_field/label_container_view.dart';
 import '../../widgets/custom_buttons/text_buttons.dart';
-import '../home_page/home_page.dart';
 import '../home_page/list_ui.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,8 +21,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController emailTextController  = TextEditingController(text: 'admin-deorwine_dev@gmail.com');
-  TextEditingController passwordTextController  = TextEditingController(text: 'Admin@123');
+  // TextEditingController emailTextController  = TextEditingController(text: 'admin-deorwine_dev@gmail.com');
+  TextEditingController emailTextController  = TextEditingController();
+  TextEditingController passwordTextController  = TextEditingController();
+  // TextEditingController passwordTextController  = TextEditingController(text: 'Admin@123');
   String emailError = '';
   String passwordError = '';
 
@@ -35,15 +35,17 @@ class _LoginScreenState extends State<LoginScreen> {
   void loginTap()async{
    try{
      http.Response response  = await http.post(Uri.parse('http://172.105.41.132/buildithome/public/api/v1/admin/login'),body: jsonEncode({
-       // 'email' :emailTextController.text,
-       // 'password' :passwordTextController.text
+       'email' :emailTextController.text,
+       'password' :passwordTextController.text
      }),headers: {
        'Content-type': 'application/json',
        'Accept': 'application/json',
      });
      Map<String,dynamic> apiData = jsonDecode(response.body);
+     print(apiData);
+     print(response.statusCode);
      if(response.statusCode ==200 && apiData['status']==true){
-       Get.to(ListApiData());
+       Get.to(const ListApiData());
      }else if(response.statusCode ==404){
        showSnackBar("Url not found");
      }else if(response.statusCode == 500){
@@ -51,9 +53,13 @@ class _LoginScreenState extends State<LoginScreen> {
      }else if(response.statusCode == 401 || response.statusCode == 407){
        showSnackBar("Token not found");
      }else if(response.statusCode ==422){
+       setState(() {
+         emailError = apiData.containsKey('errors')?apiData['errors'].containsKey('email')?apiData['errors']['email'][0]:"":"";
+         passwordError = apiData.containsKey('errors')?apiData['errors'].containsKey('password')?apiData['errors']['password'][0]:"":"";
+       });
        showSnackBar("Validation error");
      }else{
-       showSnackBar("Something went wrong");
+       showSnackBar(apiData['message']);
      }
    }on http.ClientException{
      showSnackBar("NO internet connection");
