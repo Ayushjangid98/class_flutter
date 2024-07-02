@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../model_view/api_helper/api_helper.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -191,6 +193,15 @@ class HomePage extends StatelessWidget {
 class HomePageController extends GetxController{
   RxInt pageIndex = 0.obs;
   RxList<String> data =  <String>[].obs;
+
+  void getData()async{
+    ApiHandler apiData = await ApiCalling.getApi(uri: "http://172.105.41.132/buildithome/public/api/v1/customer/projects");
+    if(apiData.response!=null){
+
+    }else{
+      print(apiData.error);
+    }
+  }
   @override
   void onInit() {
     print("dcghvsdhgcvsdc");
