@@ -13,7 +13,7 @@ void main() {
   Get.put(CountController());
   runApp(GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: ListApiData(),
       // initialRoute:Routes.homePage,
       // getPages: Routes.routes,
     // home: CountScreen(),

@@ -11,7 +11,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomePageController controller = Get.put(HomePageController());
-    print("jasdhvchsvdbkfhwebhwebkf");
     return Scaffold(
       backgroundColor: Color(0xffF3F2F8),
       appBar:PreferredSize(

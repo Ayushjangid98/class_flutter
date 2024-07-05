@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../model_view/api_helper/api_helper.dart';
+import '../../../model_view/model/food_model.dart';
 
 class ListApiData extends StatefulWidget {
   const ListApiData({super.key});
@@ -14,13 +12,14 @@ class ListApiData extends StatefulWidget {
 }
 
 class _ListApiDataState extends State<ListApiData> {
-  List apiData = [];
+  List<Recipe> apiData = <Recipe>[];
   void getTodoData() async {
     try {
-      ApiHandler apiResponse = await ApiCalling.getApi(uri: 'https://jsonplaceholder.typicode.com/todos');
+      ApiHandler apiResponse = await ApiCalling.getApi(uri: 'https://dummyjson.com/recipes');
       if (apiResponse.response != null) {
         setState(() {
-          apiData = apiResponse.response ?? [];
+          FoodModel foodModel = FoodModel.fromJson(apiResponse.response);
+          apiData = foodModel.recipes ?? [];
         });
       } else {
         showSnackBar(apiResponse.error?.message ?? "");
@@ -48,7 +47,39 @@ class _ListApiDataState extends State<ListApiData> {
       body: ListView.builder(
           itemCount: apiData.length,
           itemBuilder: (context, index) {
-            return Text(apiData[index]["title"].toString());
+            return Padding(
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 150,width: 150,child: ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.network(apiData[index].image??"")),),
+                  const SizedBox(width: 15,),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(apiData[index].name??"",style: const TextStyle(fontSize: 14,color: Colors.black),),
+                        const SizedBox(height:5,),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Ingredients : ",style: TextStyle(fontSize: 12,color: Colors.black),),
+                            Expanded(
+                              child: Wrap(
+                                children: List.generate(apiData[index].ingredients?.length??0, (ingredientsIndex) =>   Text("${apiData[index].ingredients?[ingredientsIndex]??""}, ",style: const TextStyle(fontSize: 10,color: Colors.grey),)),
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height:5,),
+                        const Text("instructions : ",style: TextStyle(fontSize: 12,color: Colors.black),),
+                        ...List.generate(apiData[index].instructions?.length??0, (instructionsIndex) =>   Text(apiData[index].instructions?[instructionsIndex]??"",style: const TextStyle(fontSize: 10,color: Colors.grey),))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
           }),
     );
   }
